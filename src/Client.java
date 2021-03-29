@@ -6,8 +6,8 @@ import java.net.Socket;
 
 public class Client {
     public static void main(String[] args, JOptionPane JOptionPane) {
-        String ip = (String) JOptionPane.showInputDialog(null,"IP?","Connect to..",JOptionPane.QUESTION_MESSAGE);
-        int port = Integer.parseInt(JOptionPane.showInputDialog(null,"Port?","Connect to..",JOptionPane.QUESTION_MESSAGE));       ;
+        String ip = (String) javax.swing.JOptionPane.showInputDialog(null,"IP?","Connect to..", javax.swing.JOptionPane.QUESTION_MESSAGE);
+        int port = Integer.parseInt(javax.swing.JOptionPane.showInputDialog(null,"Port?","Connect to..", javax.swing.JOptionPane.QUESTION_MESSAGE));       ;
         Socket socket = null;
 
         try {
@@ -23,10 +23,10 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             boolean run = true;
             while (run) {
-                out.println(JOptionPane.showInputDialog(null, "Name?", "Identify yourself!"));
+                out.println(javax.swing.JOptionPane.showInputDialog(null, "Name?", "Identify yourself!"));
 
                 String msg = in.readLine();
-                JOptionPane.showMessageDialog(null, msg, "Server said", JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, msg, "Server said", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
             in.close();
             out.close();
