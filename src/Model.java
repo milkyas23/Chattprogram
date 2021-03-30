@@ -4,8 +4,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Main {
-    public static void main(String[] args){
+public class Model {
+    public void main(String[] args){
         int port = 1234;
         boolean run = true;
         ServerSocket serverSocket;

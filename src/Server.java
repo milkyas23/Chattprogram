@@ -3,37 +3,50 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    private String name;
 
-    public void main(String[] args) {
+
+    public static void main(String[] args) {
         int port = 1234;
         boolean run = true;
-        ServerSocket serverSocket;
-        Socket socket;
+//        ServerSocket serverSocket;
+//        Socket socket;
 
 
         try {
-            serverSocket = new ServerSocket(port);
-            while (true) {
-                System.out.println("Waiting for connections!");
-                socket = serverSocket.accept();
+            ServerSocket serverSocket= new ServerSocket(port);
 
-                while (run) {
-                    System.out.println("Client name is \"" + name + "\"");
-                    System.out.println("Sending feedback");
-                    PrintStream out = null;
-                    out.println("SERVER: Welcome " + name + "! Keep up the good work");
-                    BufferedReader in = null;
-                    try {
-                        name = in.readLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                Socket socket = serverSocket.accept();
+
+                DataInputStream din = new DataInputStream(socket.getInputStream());
+                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+                String msgin = "Mikey säger"+"", msgout = "Mikey svarar"+ "";
+                while (!msgin.equals("end")) {
+                    msgin = din.readUTF();
+                    System.out.println("klienten säger: " + msgin);
+                    msgout = br.readLine();
+                    dout.writeUTF(msgout);
+                    dout.flush();
                 }
-            }
+                socket.close();
+
+//                while (run) {
+//                    System.out.println("Client name is \"" + name + "\"");
+//                    System.out.println("Sending feedback");
+//                    PrintStream out = null;
+//                    out.println("SERVER: Welcome " + name + "! Keep up the good work");
+//                    BufferedReader in = null;
+//                    try {
+//                        name = in.readLine();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
 
-        } catch (IOException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

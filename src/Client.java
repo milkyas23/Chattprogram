@@ -1,42 +1,39 @@
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class Client {
-    public static void main(String[] args, JOptionPane JOptionPane) {
-        String ip = (String) javax.swing.JOptionPane.showInputDialog(null,"IP?","Connect to..", javax.swing.JOptionPane.QUESTION_MESSAGE);
-        int port = Integer.parseInt(javax.swing.JOptionPane.showInputDialog(null,"Port?","Connect to..", javax.swing.JOptionPane.QUESTION_MESSAGE));       ;
-        Socket socket = null;
+
+    public static void main(String[] args){
+
 
         try {
-            socket = new Socket(ip,port);
-        } catch (Exception e) {
-            System.out.println("Client failed to connect");
-            System.exit(0);
-        }
+            String ip = (String) javax.swing.JOptionPane.showInputDialog(null, "IP?", "Connect to..", javax.swing.JOptionPane.QUESTION_MESSAGE);
+            int port = Integer.parseInt(javax.swing.JOptionPane.showInputDialog(null, "Port?", "Connect to..", javax.swing.JOptionPane.QUESTION_MESSAGE));
+            ;
+            //Socket socket = null;
+            Socket socket = new Socket(ip, port);
 
-        // GO
-        try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            boolean run = true;
-            while (run) {
-                out.println(javax.swing.JOptionPane.showInputDialog(null, "Name?", "Identify yourself!"));
+            DataInputStream din = new DataInputStream(socket.getInputStream());
+            DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
 
-                String msg = in.readLine();
-                javax.swing.JOptionPane.showMessageDialog(null, msg, "Server said", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String msgin = "Mikey säger" + "", msgout = "Mikey svarar" + "";
+
+
+            while (!msgin.equals("end")) {
+                msgin = br.readLine();
+                dout.writeUTF("Mikey säger" + msgin);
+                msgout = din.readUTF();
+                System.out.println("Mikey säger" + msgout);
+
+
             }
-            in.close();
-            out.close();
-            socket.close();
-            System.out.println("Done!");
-        } catch (Exception e) {
-            System.out.println("Client failed to communicate");
         }
-    }
-
-
-
+        catch(Exception e){
+                System.out.println("Client failed to connect");
+                System.exit(0);
+            }
+        }
 }
+
